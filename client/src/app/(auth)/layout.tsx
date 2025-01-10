@@ -1,4 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import { MoveRight } from 'lucide-react';
 
 export default function AuthLayout({
   children,
@@ -17,7 +21,19 @@ export default function AuthLayout({
           className='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
         />
       </div>
-      <div className='flex items-center justify-center py-12'>{children}</div>
+      <div className='relative'>
+        <div className='absolute top-2 right-2 flex justify-end'>
+          <Link href='/blogs'>
+            <Button variant='outline'>
+              View Blogs &nbsp; <MoveRight />
+            </Button>
+          </Link>
+        </div>
+
+        <div className='flex items-center justify-center py-12 h-full'>
+          {children}
+        </div>
+      </div>
     </main>
   );
 }
