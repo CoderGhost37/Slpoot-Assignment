@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 
 import userRoutes from '../routes/user.js';
+import categoryRoutes from '../routes/category.js';
 
 import connectDB from '../db/connect.js';
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/category', categoryRoutes);
 
 app.get('/', async (req, res) => {
   res.send('Hello World');
