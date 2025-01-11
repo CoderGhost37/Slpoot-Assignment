@@ -46,7 +46,11 @@ export const login = async (req, res) => {
       });
 
     const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
+      {
+        name: existingUser.name,
+        email: existingUser.email,
+        id: existingUser._id,
+      },
       JWT_SECRET,
       { expiresIn: '1h' }
     );
@@ -100,7 +104,7 @@ export const register = async (req, res) => {
     });
 
     const token = jwt.sign(
-      { email: result.email, id: result._id },
+      { name: result.name, email: result.email, id: result._id },
       JWT_SECRET,
       {
         expiresIn: '1h',

@@ -1,9 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -18,9 +21,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
+import { useAuthStore } from '@/hooks/use-auth';
 import { loginSchema } from '@/schema/login';
 
 export function LoginForm() {
+  const router = useRouter();
+  const { login } = useAuthStore();
   const [isPending, startTransition] = React.useTransition();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -32,7 +38,26 @@ export function LoginForm() {
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
     startTransition(() => {
-      //
+      startTransition(async () => {
+        try {
+          const { data } = await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
+            values,
+          );
+
+          if (data.data.success) {
+            toast.success(data.data.message);
+            document.cookie = `authToken=${data.data.token}; path=/; max-age=3600`;
+            login(data.data.token);
+            form.reset();
+            router.push('/blogs');
+          } else {
+            toast.error(data.data.message);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
     });
   }
 
