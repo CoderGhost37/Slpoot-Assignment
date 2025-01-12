@@ -29,6 +29,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { UploadButton } from '@/lib/uploadthing';
 import { blogSchema } from '@/schema/blog';
+import { revalidatePath } from 'next/cache';
 
 interface CreateBlogProps {
   onClose: () => void;
@@ -70,6 +71,7 @@ export function CreateBlogForm({
             toast.success(data.data.message);
             form.reset();
             onClose();
+            revalidatePath('/blogs');
           } else {
             toast.error(data.data.message);
           }
@@ -160,8 +162,7 @@ export function CreateBlogForm({
                   <UploadButton
                     endpoint='blogImage'
                     appearance={{
-                      button:
-                        'w-full cursor-pointer hover:bg-gray-100 text-black border',
+                      button: 'w-full cursor-pointer bg-blue-500 border',
                       allowedContent: 'hidden',
                     }}
                     onClientUploadComplete={(res) => {

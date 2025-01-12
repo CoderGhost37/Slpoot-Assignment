@@ -59,6 +59,7 @@ export default async function BlogPage({
         alt={blog.title}
         width={800}
         height={400}
+        priority
         className='rounded w-full max-w-2xl mx-auto h-auto object-cover'
       />
 
