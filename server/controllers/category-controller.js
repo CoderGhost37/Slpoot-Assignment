@@ -32,7 +32,9 @@ export const getCategoryBlogs = async (req, res) => {
   }
 
   try {
-    const blogs = await Blog.find({ categories: id });
+    const blogs = await Blog.find({ category: id })
+      .select('-description')
+      .populate('author', 'name email');
     res.status(200).json({
       data: {
         success: true,

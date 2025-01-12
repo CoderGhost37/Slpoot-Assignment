@@ -17,12 +17,10 @@ export function Categories({ activeCategory, categories }: CategoriesProps) {
       {categories.map((category) => (
         <Link
           key={category._id}
-          href={`/blogs?category=${category.name.toLowerCase()}`}
+          href={`/blogs?category=${category._id}`}
           className={cn(
             'relative flex flex-col items-center gap-1.5',
-            activeCategory === category.name.toLowerCase()
-              ? 'text-black'
-              : 'text-gray-600',
+            activeCategory === category._id ? 'text-black' : 'text-gray-600',
           )}
         >
           <Image
@@ -33,7 +31,7 @@ export function Categories({ activeCategory, categories }: CategoriesProps) {
             className='w-6 h-6 object-cover'
           />
           <span className='text-sm'>{category.name}</span>
-          {activeCategory === category.name.toLowerCase() && (
+          {activeCategory === category._id && (
             <div className='absolute bottom-0 h-[2px] w-full bg-black mt-2' />
           )}
         </Link>

@@ -24,15 +24,9 @@ export default async function BlogsPage({
     <main className='max-w-6xl mx-auto px-8 py-12'>
       <Categories
         categories={data.data.categories}
-        activeCategory={
-          category ? category : data.data.categories[0].name.toLowerCase()
-        }
+        activeCategory={category ? category : data.data.categories[0]._id}
       />
-      <Blogs
-        category={
-          category ? category : data.data.categories[0].name.toLowerCase()
-        }
-      />
+      <Blogs category={category ? category : data.data.categories[0]._id} />
     </main>
   );
 }
