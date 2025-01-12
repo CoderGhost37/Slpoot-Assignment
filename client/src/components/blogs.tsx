@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import axios from 'axios';
+import { MoveRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,35 +27,40 @@ export async function Blogs({ category }: { category: string }) {
   return (
     <section className='py-12'>
       {data.data.blogs.length > 0 ? (
-        <div className=''>
+        <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4'>
           {data.data.blogs.map((blog: Blog) => (
-            <div className='relative w-full md:flex'>
-              <Image
-                className={cn(
-                  'flex-none rounded-t object-cover md:rounded-l md:rounded-t-none',
-                  'aspect-video w-full md:max-w-[300px]',
-                )}
-                src={blog.imgUrl}
-                alt={blog.title}
-                width={100}
-                height={100}
-                sizes='(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
-              />
-
-              <div className='flex w-full flex-col justify-between rounded-b border-b border-l border-r bg-white p-6 leading-normal md:rounded-b-none md:rounded-r md:border-l-0 md:border-t'>
-                <div className='mb-8 space-y-5'>
-                  <p className='mb-2 font-heading text-2xl font-bold text-black'>
-                    {blog.title}
-                  </p>
-                </div>
+            <Link
+              href={`/blogs/${blog._id}`}
+              className='group z-1 rounded flex cursor-pointer flex-col bg-gray-200 transition-all hover:bg-gray-100'
+            >
+              <div className='aspect-video overflow-hidden rounded-t'>
+                <Image
+                  src={blog.imgUrl}
+                  alt={blog.title}
+                  width={2669}
+                  height={1782}
+                  loading='lazy'
+                  className='transition-transform group-hover:scale-105'
+                />
               </div>
 
-              <Link
-                href={`/blogs/${blog._id}`}
-                target='_blank'
-                className='absolute inset-0'
-              />
-            </div>
+              <div className='flex-1 px-4 pb-6 pt-4'>
+                <h3 className='animated-underline group-hover:animated-underline-start font-heading text-2xl font-normal '>
+                  {blog.title}
+                </h3>
+
+                <p className='text-gray-600'>{blog.author.email}</p>
+              </div>
+
+              <div className='flex flex-shrink-0 items-end px-4 py-4'>
+                <div className='flex items-center gap-2'>
+                  <div className='flex items-center justify-center rounded-full bg-gray-500 p-2 group-hover:bg-gray-900'>
+                    <MoveRight className='h-3 w-3 text-white' />
+                  </div>
+                  <span className='font-medium'>Read more</span>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       ) : (
