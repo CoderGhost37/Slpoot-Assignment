@@ -1,13 +1,38 @@
-'use client';
+import { Blogs } from '@/components/blogs';
+import { Categories } from '@/components/categories';
+import axios from 'axios';
+import { Metadata } from 'next';
 
-import { useAuthStore } from '@/hooks/use-auth';
+export const metadata: Metadata = {
+  title: 'Blogs',
+};
 
-export default function BlogsPage() {
-  const { user, logout } = useAuthStore();
+export default async function BlogsPage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const category = (await searchParams)?.category as string | undefined;
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category`,
+  );
+  if (!data.data.success) {
+    return null;
+  }
+
   return (
-    <div className='p-4'>
-      <button onClick={logout}>Log Out</button>
-      <p>{JSON.stringify(user)}</p>
-    </div>
+    <main className='max-w-6xl mx-auto px-8 py-12'>
+      <Categories
+        categories={data.data.categories}
+        activeCategory={
+          category ? category : data.data.categories[0].name.toLowerCase()
+        }
+      />
+      <Blogs
+        category={
+          category ? category : data.data.categories[0].name.toLowerCase()
+        }
+      />
+    </main>
   );
 }
