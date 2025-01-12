@@ -96,3 +96,22 @@ export const getBlogTitleById = async (req, res) => {
     });
   }
 };
+
+export const getAllBlogs = async (req, res) => {
+  try {
+    const blogs = await Blog.find().select('_id');
+    res.status(200).json({
+      data: {
+        success: true,
+        blogs,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      data: {
+        success: false,
+        message: 'Something went wrong.',
+      },
+    });
+  }
+};
