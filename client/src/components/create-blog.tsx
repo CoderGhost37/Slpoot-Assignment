@@ -25,11 +25,11 @@ interface CreateBlogProps {
 
 export function CreateBlog({ categories }: CreateBlogProps) {
   const { user } = useAuthStore();
+  const [open, setOpen] = React.useState(false);
 
   if (!user) {
     return null;
   }
-  const [open, setOpen] = React.useState(false);
 
   return (
     <div className='max-w-6xl mx-auto mb-4 px-4'>

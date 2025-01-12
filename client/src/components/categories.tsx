@@ -13,7 +13,7 @@ interface CategoriesProps {
 
 export function Categories({ activeCategory, categories }: CategoriesProps) {
   return (
-    <div className='flex items-center justify-center gap-8'>
+    <div className='flex items-center justify-center gap-8 w-full overflow-hidden overflow-x-auto py-2'>
       {categories.map((category) => (
         <Link
           key={category._id}
