@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function BlogsPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const category = (await searchParams)?.category as string | undefined;
   const { data } = await axios.get(
